@@ -28,7 +28,7 @@ ifeq ($(TARGET_ARCH),arm)
 LOCAL_SRC_FILES += \
 	arch-arm/backtrace-arm.c \
 	arch-arm/ptrace-arm.c
-LOCAL_CFLAGS += -DCORKSCREW_HAVE_ARCH -Wno-error=unused-parameter
+LOCAL_CFLAGS += -DCORKSCREW_HAVE_ARCH -Wno-error=unused-parameter -Wno-error=implicit-function-declaration
 endif
 ifeq ($(TARGET_ARCH),x86)
 LOCAL_SRC_FILES += \
@@ -39,7 +39,7 @@ endif
 
 LOCAL_SHARED_LIBRARIES += libdl libcutils libgccdemangle
 
-LOCAL_CFLAGS += -std=gnu99 -Werror -Wno-error=unused-parameter
+LOCAL_CFLAGS += -std=gnu99 -Werror -Wno-error=unused-parameter -Wno-error=implicit-function-declaration
 LOCAL_MODULE := libcorkscrew
 LOCAL_MODULE_TAGS := optional
 
