@@ -24,8 +24,17 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
-#include <sys/exec_elf.h>
 #include <cutils/log.h>
+#include <stdbool.h>
+#include <elf.h>
+
+static bool is_elf(Elf32_Ehdr* e) {
+    return (e->e_ident[EI_MAG0] == ELFMAG0 &&
+            e->e_ident[EI_MAG1] == ELFMAG1 &&
+            e->e_ident[EI_MAG2] == ELFMAG2 &&
+            e->e_ident[EI_MAG3] == ELFMAG3);
+}
+
 
 // Compare function for qsort
 static int qcompar(const void *a, const void *b) {
@@ -67,7 +76,7 @@ symbol_table_t* load_symbol_table(const char *filename) {
 
     // Parse the file header
     Elf32_Ehdr *hdr = (Elf32_Ehdr*)base;
-    if (!IS_ELF(*hdr)) {
+    if (!is_elf(hdr)) {
         goto out_close;
     }
     Elf32_Shdr *shdr = (Elf32_Shdr*)(base + hdr->e_shoff);
